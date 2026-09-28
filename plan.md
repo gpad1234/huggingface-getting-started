@@ -126,6 +126,8 @@ Only begin this phase after Phases 1 and 2 work.
 - The script does not require `llama-cpp-python`.
 - The CLI workflow and Python workflow produce comparable answers.
 
+Milestone completed on 2026-09-25. `ollama_client.py` uses Python's standard library, defaults to `qwen2.5:3b`, supports `--model`, and reports unavailable-service and invalid-model errors. The same prompt returned `OK` through both the Python client and `ollama run`; the comparison is saved in `runs/2026-09-25-python-client-check.txt`.
+
 ## Phase 4: optional comparison
 
 Compare `qwen2.5:3b` with `tinyllama:latest` on the same three prompts.
@@ -134,11 +136,13 @@ Record:
 
 - Response relevance
 - Response completeness
-- Time to first output, approximately
+- Wall-clock completion time for each prompt, approximately
 - Overall machine responsiveness
 - Disk usage
 
 Do not install a 7B+ model as part of this phase. The available-memory reading was low, and larger models may cause swapping or make the computer unpleasant to use.
+
+Phase completed on 2026-09-25. Each of the three prompts was sent individually to both models. Single-run wall-clock times and qualitative observations are recorded in `runs/2026-09-25-model-comparison-timed.txt`. Qwen was more reliable on these examples, but not consistently faster. Perceived machine responsiveness was not formally measured; these results are not a general benchmark.
 
 ## Explicitly deferred work
 
@@ -155,11 +159,11 @@ They may become reasonable later, but they would add complexity before the basic
 
 ## Recommended order of work
 
-1. Run the three-prompt session and save the output.
-2. Review the saved output and record observations.
-3. Create the repeatable shell script.
-4. Add the standard-library Python HTTP client.
-5. Compare the two installed models.
+1. Run the three-prompt session and save the output. (Complete)
+2. Review the saved output and record observations. (Complete)
+3. Create the repeatable shell script. (Complete)
+4. Add the standard-library Python HTTP client and compare it with `ollama run`. (Complete)
+5. Compare the two installed models. (Complete; limited single-run comparison)
 6. Decide whether a larger project is justified.
 
 ## Definition of done for the next milestone

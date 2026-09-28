@@ -1,0 +1,35 @@
+Date: 2026-09-25
+Hardware: Intel x86_64 MacBook Pro, CPU-only Ollama inference
+Method: Send each prompt individually through `ollama_client.py --model ...`; record wall-clock process time with `/usr/bin/time -p`. Single run per model/prompt, so timings are approximate and not a benchmark.
+
+Prompt 1: Explain recursion in one sentence.
+
+qwen2.5:3b - 13.47 s
+Recursion is when a function or process solves a problem by reducing it to smaller instances of the same problem until it reaches a base case.
+
+tinyllama:latest - 15.48 s
+TinyLlama described recursion as repeatedly calling a function until a base case, but added a confusing snowflake analogy and went beyond one sentence. Its earlier answer in `2026-09-25-model-comparison.txt` confused recursion with iteration over data.
+
+Assessment: Qwen was clearer and more accurate.
+
+Prompt 2: Write a short Python function that checks whether a number is prime. Include one example.
+
+qwen2.5:3b - 132.60 s
+Qwen produced a working trial-division function for integer inputs, but included an unnecessary `n % 1 != 0` check and inaccurately explained it as checking whether the input has decimals. The example `is_prime(7)` is correct.
+
+tinyllama:latest - 37.12 s
+TinyLlama produced broken code: the loop variable is `I` but later references use `i`, and `i` can be undefined when the loop does not run. Its comment also misdescribes the algorithm as Euclid's algorithm.
+
+Assessment: Qwen was substantially more reliable, though its answer still merits review. It took much longer on this prompt.
+
+Prompt 3: Summarize this sentence in one sentence: Local language models can run privately on consumer hardware when the model is small and quantized.
+
+qwen2.5:3b - 11.05 s
+Small and quantized local language models can run privately on consumer devices.
+
+tinyllama:latest - 14.46 s
+TinyLlama preserved the privacy and small/quantized model idea, but added an unsupported claim about avoiding central servers and a claim about smaller datasets.
+
+Assessment: Qwen stayed closer to the source and was faster for this prompt.
+
+Overall: Qwen was more accurate and concise across these three examples. It was not consistently faster: TinyLlama was faster on the code-generation prompt, while Qwen was faster on the summary prompt. No formal measurement of perceived machine responsiveness was recorded. Results are anecdotal single-run observations on CPU, not a general model ranking.

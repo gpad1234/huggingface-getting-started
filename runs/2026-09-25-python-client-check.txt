@@ -1,0 +1,13 @@
+Date: 2026-09-25
+Model: qwen2.5:3b
+Prompt: Reply with only the word OK.
+
+Python client output:
+OK
+
+Direct `ollama run` output:
+OK
+
+Result: Both workflows returned the same response for the same prompt.
+The Python client was also checked with an unavailable service and an invalid
+model name; both failures were reported without a traceback.

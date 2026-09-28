@@ -1,0 +1,12 @@
+Date: 2026-09-25
+Prompt: Explain recursion in one sentence.
+
+Model: qwen2.5:3b
+Response: Recursion is a programming technique where a function calls itself to solve smaller instances of the same problem until it reaches a base case.
+
+Model: tinyllama:latest
+Response: Recursion is a type of programming where the same function or subroutine is used to solve problems recursively by iterating over an array, list, or other data structure. In other words, it involves repeating the same process or calculation until all possible solutions or answers have been found.
+
+Observation: Qwen gave a concise, accurate definition. TinyLlama confused recursion with iteration over data, so its answer was less reliable on this prompt.
+
+Limitations: This is a one-prompt quality check, not a full model benchmark. The three-prompt TinyLlama run in `2026-09-25-155309.txt` stopped after Prompt 1 and has incomplete output. No comparative latency or machine-responsiveness measurements were collected.

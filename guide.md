@@ -2,6 +2,8 @@
 
 This guide follows the low-hardware path described in the project README. The verified primary runtime is Ollama, using the locally downloaded `qwen2.5:3b` model. See `spec.md` for the complete installation record and troubleshooting details.
 
+For step-by-step checks of the Python client, Ollama service, saved runs, and web dashboard, see `TESTING.md`.
+
 ## Recommended approach
 
 For an older 8GB MacBook Pro, the best choice is the GGUF/quantized model route rather than the full Transformers + PyTorch workflow. Ollama manages the model runtime and avoids compiling Python native bindings.
@@ -31,6 +33,20 @@ ollama run qwen2.5:3b "Explain machine learning in one simple sentence."
 ```
 
 The first run downloads approximately 1.9 GB. Later runs reuse the local model.
+
+## Use the Python HTTP client
+
+With Ollama running, send a prompt through the standard-library client:
+
+```bash
+python3 ollama_client.py "Explain recursion in plain English."
+```
+
+The default model is `qwen2.5:3b`. Select another installed model with `--model`:
+
+```bash
+python3 ollama_client.py --model tinyllama:latest "Explain recursion in plain English."
+```
 
 ## Optional Python fallback
 

@@ -1,0 +1,25 @@
+Model: tinyllama:latest
+Date: Fri Sep 25 15:53:09 PDT 2026
+
+Prompt 1
+Recursion is a pattern of defining sub-functions or procedures that call on[2D[K
+on themselves, iteratively. In three sentences:
+
+1. Recursion is defined as a function with the same name and arguments that[4D[K
+that calls itself using another function.
+2. Example: If we define a function "factorial" that calculates the factori[7D[K
+factorial (product of all numbers from 1 to n) using its own definition, we[2D[K
+we can define another recursive function called "next_factorial", which is [K
+equivalent to calling "factorial" recursively on itself using the "next_fac[9D[K
+"next_factorial". This process is known as recursion.
+3. In practice, a recursive function is defined by placing an "increasingly[13D[K
+"increasingly larger" set of arguments into a series of sub-functions or pr[2D[K
+procedures that call upon themselves iteratively. When we say a function "r[2D[K
+"recursively calls itself", what we really mean is it defines itself using [K
+another function called recursively on itself using the same arguments. In [K
+this case, we are calling the same function over and over again with increa[6D[K
+increasingly larger inputs.
+
+
+Prompt 2
+Note: This TinyLlama run stopped before Prompt 2 produced output. The file is retained as a partial run, not a completed benchmark.

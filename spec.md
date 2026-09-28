@@ -172,3 +172,33 @@ The pilot is considered complete when all of the following are true:
 5. The machine remains responsive enough for short prompt tests.
 
 All five criteria have been met for the current setup.
+
+## 9. Python HTTP client and recent validation
+
+On 2026-09-25, `ollama_client.py` was added as a Python standard-library CLI for Ollama's local HTTP API. It posts a non-streaming request to `http://127.0.0.1:11434/api/generate`, defaults to `qwen2.5:3b`, accepts `--model` to select another installed model, and reports connection, HTTP, and invalid-response errors without a traceback.
+
+Run it with the project virtual environment or another Python 3 installation:
+
+```bash
+.venv/bin/python ollama_client.py "Explain recursion in plain English."
+.venv/bin/python ollama_client.py --model tinyllama:latest "Explain recursion in plain English."
+```
+
+The project virtual environment uses Python 3.12.7. The client itself requires no third-party Python packages. Ollama must be running first; start it with `ollama serve` if needed.
+
+### Client checks performed
+
+- Ran `python -m py_compile ollama_client.py` successfully and confirmed the CLI options with `--help`.
+- With Ollama stopped, the client reported that the service was unreachable and suggested `ollama serve`.
+- Started Ollama on `127.0.0.1:11434`; a short prompt returned `OK` through the client.
+- Ran the same prompt through `ollama run qwen2.5:3b`; it also returned `OK`.
+- Selected a nonexistent model; Ollama returned HTTP 404 and the client displayed the model-not-found response without a traceback.
+- Workspace diagnostics reported no errors in the client or the updated project documentation.
+
+The matching client/direct-CLI check is recorded in `runs/2026-09-25-python-client-check.txt`.
+
+### Model comparison status
+
+The three-prompt comparison was completed by sending each prompt individually to both models through the Python client. The matched prompts cover recursion, a prime-checking function, and summarization. One `/usr/bin/time -p` wall-clock measurement was recorded for each model/prompt pair; these are single-run CPU timings, not a formal benchmark or time-to-first-token measurements. Full observations are in `runs/2026-09-25-model-comparison-timed.txt`.
+
+Qwen was clearer and more faithful on the recursion and summary prompts. For code generation, Qwen produced a working integer prime checker but included an unnecessary check and explanation error; TinyLlama's code had a variable-name mismatch and could reference an undefined variable. Qwen was slower for the prime-checker prompt (132.60 s versus 37.12 s), but faster on summarization (11.05 s versus 14.46 s); recursion took 13.47 s versus 15.48 s. Perceived machine responsiveness was not formally measured. The earlier incomplete batch remains preserved and labeled partial in `runs/2026-09-25-155309.txt`.

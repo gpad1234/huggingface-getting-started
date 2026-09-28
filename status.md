@@ -1,14 +1,14 @@
 # Local LLM Pilot Status
 
-**Date:** 2026-09-23  
+**Date:** 2026-09-25
 **Project:** `/Users/gp/huggingface/getting-started`  
-**Status:** Pilot operational; ready for the Python client milestone
+**Status:** Pilot operational; Python HTTP client and initial model comparison complete
 
 ## Executive summary
 
-The local LLM pilot is working on the older 8GB Intel MacBook Pro. Ollama runs the `qwen2.5:3b` model locally on the CPU, and the automated prompt script completes successfully. The basic installation and inference goals are complete.
+The local LLM pilot is working on the older 8GB Intel MacBook Pro. Ollama runs the `qwen2.5:3b` model locally on the CPU, and the automated prompt script completes successfully. The standard-library Python HTTP client also returns responses from Ollama and handles unavailable-service and invalid-model errors.
 
-The next recommended task is to add a small Python client that calls Ollama's local HTTP API. This will demonstrate how an application can use the model without compiling `llama-cpp-python`.
+The Python client and direct `ollama run` workflow returned the same response for the same prompt. Both installed models have now been compared on the same three prompts with individual CPU runs and approximate wall-clock timings. Qwen was more reliable on these examples, although much slower on the prime-checker prompt. Treat the results as anecdotal rather than a general benchmark.
 
 ## Completed
 
@@ -22,6 +22,10 @@ The next recommended task is to add a small Python client that calls Ollama's lo
 - Ran the original one-sentence machine-learning test successfully.
 - Ran the three-prompt practice session successfully.
 - Added `run_prompts.sh` to automate the three-prompt session.
+- Added `ollama_client.py`, a standard-library CLI for Ollama's local HTTP API.
+- Compared the Python client with `ollama run`; both returned `OK` for the same prompt.
+- Verified `--model` with both installed models and saved a one-prompt comparison; Qwen's response was more accurate for the recursion prompt.
+- Completed the matched three-prompt comparison with both models and recorded approximate wall-clock timings and response-quality observations.
 - Saved prompt results under `runs/`.
 - Documented the environment in `spec.md`.
 - Documented the main and fallback workflows in `guide.md`.
@@ -88,6 +92,7 @@ MODEL=tinyllama:latest ./run_prompts.sh
 | `guide.md` | Practical setup and run guide |
 | `plan.md` | Multi-phase next-step plan |
 | `run_prompts.sh` | Automated three-prompt test script |
+| `ollama_client.py` | Standard-library CLI for the local Ollama API |
 | `pilot_llm.py` | Experimental Python GGUF client using `llama-cpp` |
 | `requirements.txt` | Python fallback dependencies |
 | `qwen2.5-3b-instruct-q4_k_m.gguf` | Standalone 2.0 GB GGUF fallback file |
@@ -112,22 +117,24 @@ The pilot meets its current acceptance criteria:
 - The automated test runs successfully.
 - Results are saved for review.
 
-**Recommended decision:** proceed to the Python HTTP client milestone; do not spend more time on the `llama-cpp-python` build at this stage.
+**Recommended decision:** keep `qwen2.5:3b` as the primary model for this pilot based on these examples; do not spend more time on the `llama-cpp-python` build at this stage.
 
 ## Next milestone
 
-Create `ollama_client.py` using only Python's standard library. It should:
+The initial comparison is complete. The individual paired outputs, wall-clock times, and limitations are recorded in `runs/2026-09-25-model-comparison-timed.txt`. Perceived machine responsiveness was not formally measured. A useful next activity is to run selected generated code through automated checks, or choose another small project task; continue avoiding larger model downloads on this 8 GB CPU-only machine.
 
-- Accept a prompt from the command line.
-- Send the prompt to `http://127.0.0.1:11434/api/generate`.
-- Use `qwen2.5:3b` by default.
-- Print the model response.
-- Report a clear error when Ollama is not running.
+## Private web UI
 
-Target usage:
+Added `app.py`, a small Flask app for local, private use only (binds to `127.0.0.1`):
+
+- Dashboard listing project docs (`README.md`, `spec.md`, `guide.md`, `plan.md`, `status.md`) and saved runs.
+- A prompt box to test any installed Ollama model directly from the browser, with an option to save the result under `runs/`.
+
+Run it with:
 
 ```bash
-python3 ollama_client.py "Explain recursion in plain English."
+cd /Users/gp/huggingface/getting-started
+.venv/bin/python app.py
 ```
 
-After that, compare the Python response with the equivalent `ollama run` command and record the result in `runs/`.
+Then open `http://127.0.0.1:3000` in a browser. It is not exposed beyond localhost.

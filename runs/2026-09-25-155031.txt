@@ -1,0 +1,62 @@
+Model: qwen2.5:3b
+Date: Fri Sep 25 15:50:31 PDT 2026
+
+Prompt 1
+Recursion is when a function calls itself to solve smaller versions of the [K
+same problem until it reaches a base case where no further recursion is nee[3D[K
+needed. Think of it like climbing stairs: you keep going up, but only take [K
+steps as big as one stair at a time, and finally reach the top (base case) [K
+after reaching each floor (solving subproblems).
+
+
+Prompt 2
+Certainly! Below is a Python function to check if a given number is prime a[1D[K
+and an example of how you can use it:
+
+```python
+def is_prime(n):
+    """
+    Check if the provided integer n is a prime number.
+
+    :param int n: The number to be checked.
+    :return bool: True if n is a prime number, False otherwise.
+    """
+
+    # 0 and 1 are not considered as prime numbers
+    if n < 2:
+        return False
+
+    # Check from 2 up to the square root of n
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+# Example usage
+number = 29
+if is_prime(number):
+    print(f"{number} is a prime number")
+else:
+    print(f"{number} is not a prime number")
+```
+
+In this function, we check for numbers less than 2 and also ensure that the[3D[K
+the square root of `n` (inclusive) can divide `n`. This reduces unnecessary[11D[K
+unnecessary checks compared to checking all numbers up to `n-1`.
+
+Let's run an example with your chosen number:
+```python
+number = 29
+if is_prime(number):
+    print(f"{number} is a prime number")
+else:
+    print(f"{number} is not a prime number")
+```
+
+Output for the example number 29 would be: `29 is a prime number`.
+
+
+Prompt 3
+Small, quantized local language models can run privately on consumer device[6D[K
+devices.
+
